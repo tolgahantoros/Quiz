@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Sonuçlarınız</h2>
+<p>Skorunuz: {{ score }}</p>
+<p>En Yüksek Skor: {{ high_score }}</p>
+<a href="{{ url_for('index') }}"><button>Yeniden Dene</button></a>
+{% endblock %}

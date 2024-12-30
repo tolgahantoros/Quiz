@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="post">
+    <h2>Question 1: What is your name?</h2>
+    <input type="text" name="username" required>
+
+    <h2>Question 2: What is your favorite color?</h2>
+    <input type="radio" name="question1" value="red" required> Red<br>
+    <input type="radio" name="question1" value="blue" required> Blue<br>
+    <input type="radio" name="question1" value="green" required> Green<br>
+
+    <h2>Question 3: What is your favorite animal?</h2>
+    <input type="radio" name="question2" value="dog" required> Dog<br>
+    <input type="radio" name="question2" value="cat" required> Cat<br>
+    <input type="radio" name="question2" value="parrot" required> Parrot<br>
+
+    <h2>Question 4: Describe your hobbies or interests:</h2>
+    <textarea name="question3" rows="4" cols="50"></textarea>
+
+    <br>
+    <input type="submit" value="Submit Answers">
+</form>
+{% endblock %}

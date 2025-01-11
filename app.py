@@ -14,14 +14,25 @@ def init_db():
 
 init_db()
 
+# En yüksek skoru veritabanından alma fonksiyonu
+def get_high_score():
+    conn = sqlite3.connect('quiz.db')
+    c = conn.cursor()
+    c.execute("SELECT MAX(score) FROM scores")
+    high_score = c.fetchone()[0]
+    conn.close()
+    return high_score if high_score else 0  # Eğer skor yoksa 0 döndürüyoruz
+
 # Ana Sayfa
 @app.route('/')
 def index():
-    return render_template('index.html')
+    high_score = get_high_score()  # En yüksek skoru alıyoruz
+    return render_template('index.html', high_score=high_score)  # Skoru şablona gönderiyoruz
 
 # Sınav Sayfası
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz():
+    high_score = get_high_score()  # En yüksek skoru alıyoruz
     if request.method == 'POST':
         username = request.form.get('username', 'Anonymous')
         answers = {
@@ -51,16 +62,16 @@ def quiz():
         session['score'] = score
         session['high_score'] = high_score
 
-        return redirect(url_for('result'))
+        return redirect(url_for('result', high_score=high_score))  # Skorla birlikte yönlendiriyoruz
 
-    return render_template('quiz.html')
+    return render_template('quiz.html', high_score=high_score)  # Skoru şablona gönderiyoruz
 
 # Sonuç Sayfası
 @app.route('/result')
 def result():
     score = session.get('score', 0)
     high_score = session.get('high_score', 0)
-    return render_template('result.html', score=score, high_score=high_score)
+    return render_template('result.html', score=score, high_score=high_score)  # Skorları şablona gönderiyoruz
 
 if __name__ == '__main__':
     app.run(debug=True)
